@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job sequencing</title>
+</head>
+<body>
+  <h1>Job Seq</h1>
+  <pre>
+    struct Job
+    {
+       char id;     
+       int dead;  
+       int profit; 
+    };
+    bool comparison(Job a, Job b)
+    {
+         return (a.profit > b.profit);
+    }
+    void printJobScheduling(Job arr[], int n)
+    {
+        sort(arr, arr+n, comparison);
+      
+        int result[n];
+        bool slot[n];
+        for (int i=0; i<n; i++)
+            slot[i] = false;
+     
+        for (int i=0; i<n; i++)
+        {
+           for (int j=min(n, arr[i].dead)-1; j>=0; j--)
+           {
+              if (slot[j]==false)
+              {
+                 result[j] = i;  
+                 slot[j] = true;
+                 break;
+              }
+           }
+        }
+        for (int i=0; i<n; i++)
+           if (slot[i])
+             cout << arr[result[i]].id << " ";
+    }
+  </pre>  
+  <h2>Algo</h2>
+  <pre>
+    J: Array of N jobs
+    D: Array of the deadline for each job
+    P: Array of profit associated with each job
+    
+    // Output : Set of scheduled job which gives maximum profit
+    
+    Sort all jobs in J in decreasing order of profit
+    S ← Φ	// S is set of scheduled jobs, initially it is empty 
+    SP ← 0	// Sum is the profit earned 
+    for i ← 1 to N do
+      if Job J[i] is feasible then
+        Schedule the job in the latest possible free slot meeting its deadline.
+        S ← S ∪ J[i]
+        SP ← SP + P[i]
+      end
+    end
+  </pre>
+   <h2>Word Algo</h2>
+   <pre>1) Sort all jobs in decreasing order of profit. 
+    2) Iterate on jobs in decreasing order of profit. For each job, do the following: 
+    a) Find a time slot i, such that slot is empty and i<deadline and i is greatest. Put the job in 
+    this slot and mark this slot filled. 
+    b) If no such i exists, then ignore the job.
+    </pre>
+  <h2>Time</h2>
+  <pre>Simple greedy algorithm spends most of the time looking for the latest slot a job can use.  On average, N jobs search N/2 slots. This would take O(N2) time.
+
+    However, with the use of set data structure (find and union), the algorithm runs nearly in O(N) time</pre>
+</body>
+</html>

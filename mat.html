@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Multi</title>
+</head>
+<body>
+   <h1>Matrix Multiplication</h1> 
+   <pre>
+    #include <bits/stdc++.h>
+    using namespace std;
+    int dp[100][100];
+    
+  
+    int matrixChainMemoised(int* p, int i, int j)
+    {
+        if (i == j)
+        {
+            return 0;
+        }
+        if (dp[i][j] != -1)
+        {
+            return dp[i][j];
+        }
+        dp[i][j] = INT_MAX;
+        for (int k = i; k < j; k++)
+        {
+            dp[i][j] = min(
+                dp[i][j], matrixChainMemoised(p, i, k)
+                        + matrixChainMemoised(p, k + 1, j)
+                        + p[i - 1] * p[k] * p[j]);
+        }
+        return dp[i][j];
+    }
+    int MatrixChainOrder(int* p, int n)
+    {
+        int i = 1, j = n - 1;
+        return matrixChainMemoised(p, i, j);
+    }
+    
+  
+    int main()
+    {
+        int arr[] = { 1, 2, 3, 4 };
+        int n = sizeof(arr) / sizeof(arr[0]);
+        memset(dp, -1, sizeof dp);
+    
+        cout << "Minimum number of multiplications is "
+            << MatrixChainOrder(arr, n);
+    }
+   </pre>
+   <h2>Algo</h2>
+   <pre>MATRIX-CHAIN-ORDER (p)
+
+
+    1. n   length[p]-1
+    2. for i ← 1 to n
+    3. do m [i, i] ← 0
+    4. for l ← 2 to n    // l is the chain length
+    5. do for i ← 1 to n-l + 1
+    6. do j ← i+ l -1
+    7. m[i,j] ←  ∞
+    8. for k  ← i to j-1
+    9. do q  ← m [i, k] + m [k + 1, j] + pi-1 pk pj	
+    10. If q < m [i,j]
+    11. then m [i,j] ← q
+    12. s [i,j] ← k
+    13. return m and s.</pre>
+   <h3>Time</h3>
+   <pre>O(n^3)</pre>
+</body>
+</html>

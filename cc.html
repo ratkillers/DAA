@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin change DP</title>
+</head>
+<body>
+   <h1>Coin change</h1> 
+   <pre>
+    #include <bits/stdc++.h>  
+    using namespace std;  
+      
+      
+    int minCoins(int coins[], int total_coins, int N) 
+    {  
+            if (N == 0) 
+            return 0;  
+      
+        int result = INT_MAX;  
+      
+        for (int i = 0; i < total_coins; i++) 
+        {  
+            if (coins[i] <= N) { 
+                int sub_res = 1 + minCoins(coins, total_coins, N - coins[i]); 
+                if (sub_res < result)  
+                    result = sub_res;  
+            }  
+        }  
+        return result;  
+    }  
+      
+    int main()  
+    {  
+        int coins[] = { 10, 25, 5 };  
+        int sum = 30; 
+        int total_coins = 3; 
+        cout << "Minmum coins needed are " << minCoins(coins, total_coins, sum);  
+    }
+   </pre>
+   <h2>Algo</h2>
+   <pre>
+    Initialize a new array for dynamicprog of length n+1, where n is the number of different coin changes you want to find.
+    Because there is only one way to give change for 0 dollars, set dynamicprog[0] to 1.
+    Iterate through the array for each coin change available and add the value of dynamicprog[index-coins[i]] to dynamicprog[index] for indexes ranging from '1' to 'n'.
+    dynamicprog[n] return value 
+   </pre>
+   <h2>Time</h2>
+   <pre>
+    The Complexity of Coin Change Problem
+    The complexity of solving the coin change problem using recursive time and space will be:
+    Problems: Overlapping subproblems + Time complexity
+    
+    O(2n) is the time complexity, where n is the number of coins
+    
+    Time and space complexity will be reduced by using dynamic programming to solve the coin change problem:
+    O(numberOfCoins*TotalAmount) time complexity
+    
+    O(numberOfCoins*TotalAmount) is the space complexity.
+   </pre>
+</body>
+</html>

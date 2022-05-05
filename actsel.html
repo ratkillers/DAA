@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Selection</title>
+</head>
+<body>
+    <h1>Activity Selection</h1>
+    <pre>
+        #include<stdio.h>
+            int main(){
+               int start[] = {1 , 5 , 12};
+               int finish[] = {10, 13, 23};
+               int activities = sizeof(start)/sizeof(start[0]);
+               int i, j;
+               printf ("Following activities are selected \t");
+               i = 0;
+               printf("%d\t", i);
+               for (j = 1; j < activities; j++){
+                  if (start[j] >= finish[i]){
+                     printf ("%d ", j);
+                     i = j;
+                  }
+               }
+               return 0;
+            }
+    </pre>
+    <h2>Algo</h2>
+    <pre>
+        1)	Sort the activities according to their finishing time 
+        2)	Select the first activity from the sorted array and print it. 
+        3)	 Do the following for the remaining activities in the sorted array. 
+        a) If the start time of this activity is greater than or equal to the finish time of the previously selected activity then select this activity and print it.
+        In the following C implementation, it is assumed that the activities are already sorted according to their finish time.
+        
+    </pre>
+    <h3></h3>
+    <pre>
+     
+Time Complexity:
+When activities are sorted by their finish time: O(N)
+When activities are not sorted by their finish time, the time complexity is O(N log N) due to complexity of sorting
+    </pre>
+</body>
+</html>

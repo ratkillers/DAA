@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LCS</title>
+</head>
+<body>
+   <h1>Longest Common Subsequence</h1> 
+   <pre>
+    #include <iostream>
+        using namespace std;
+        
+        void lcsAlgo(char *S1, char *S2, int m, int n) {
+          int LCS_table[m + 1][n + 1];
+        
+        
+          // Building the mtrix in bottom-up way
+          for (int i = 0; i <= m; i++) {
+            for (int j = 0; j <= n; j++) {
+              if (i == 0 || j == 0)
+                LCS_table[i][j] = 0;
+              else if (S1[i - 1] == S2[j - 1])
+                LCS_table[i][j] = LCS_table[i - 1][j - 1] + 1;
+              else
+                LCS_table[i][j] = max(LCS_table[i - 1][j], LCS_table[i][j - 1]);
+            }
+          }
+        
+          int index = LCS_table[m][n];
+          char lcsAlgo[index + 1];
+          lcsAlgo[index] = '\0';
+        
+          int i = m, j = n;
+          while (i > 0 && j > 0) {
+            if (S1[i - 1] == S2[j - 1]) {
+              lcsAlgo[index - 1] = S1[i - 1];
+              i--;
+              j--;
+              index--;
+            }
+        
+            else if (LCS_table[i - 1][j] > LCS_table[i][j - 1])
+              i--;
+            else
+              j--;
+          }
+          
+          // Printing the sub sequences
+          cout << "S1 : " << S1 << "\nS2 : " << S2 << "\nLCS: " << lcsAlgo << "\n";
+        }
+        
+        int main() {
+          char S1[] = "ACADB";
+          char S2[] = "CBDA";
+          int m = strlen(S1);
+          int n = strlen(S2);
+        
+          lcsAlgo(S1, S2, m, n);
+        }
+
+        
+   </pre>
+       
+  <h2>Algorithm</h2> 
+  <pre>
+    X and Y be two given sequences
+    Initialize a table LCS of dimension X.length * Y.length
+    X.label = X
+    Y.label = Y
+    LCS[0][] = 0
+    LCS[][0] = 0
+    Start from LCS[1][1]
+    Compare X[i] and Y[j]
+        If X[i] = Y[j]
+            LCS[i][j] = 1 + LCS[i-1, j-1]   
+            Point an arrow to LCS[i][j]
+        Else
+            LCS[i][j] = max(LCS[i-1][j], LCS[i][j-1])
+            Point an arrow to max(LCS[i-1][j], LCS[i][j-1])
+  </pre>
+  <h2>word algo</h2>
+  <pre>If any of the loop variable i or j is 0 , then dp[i][j] = 0.
+    if X[i-1] = Y[j-1] ,i.e., when the characters at ith and jth index matches, dp[i][j] = 1 + dp[i-1][j-1].
+    Otherwise, store the maximum value we get after considering either the charater X[i] or the character Y[j],i.e.,dp[i][j] = max(dp[i][j-1],dp[i-1][j]).</pre>
+    <h2>Time comp</h2>
+    <pre>Time Complexity
+        Worst case time complexity: O(n*m)
+        Average case time complexity: O(n*m)
+        Best case time complexity: O(n*m)
+        Space complexity: O(n*m)
+        Since we are using two for loops for both the strings ,therefore the time complexity of finding the longest common subsequence using dynamic programming approach is O(n * m) where
+        n and m are the lengths of the strings.Since this implemetation involves only n rows and m columns for building dp[][],therefore, the space complexity would be O(n * m).</pre>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fractional Knapsack</title>
+</head>
+<body>
+    <h1>Fractional Knapsack</h1>
+    <pre>
+        #include<bits/stdc++.h>
+using namespace std;
+
+struct item{
+int wt;
+int p;
+float ratio;
+};
+
+bool compare3(struct item a, struct item b){
+return a.ratio>b.ratio;
+}
+bool compare2(struct item a, struct item b){
+return a.p>b.p;
+}
+bool compare1(struct item a, struct item b){
+return a.wt<b.wt;
+}
+
+int main()
+{
+int n,i;
+cout<<"Enter number of items :";
+cin>>n;
+item arr[n];
+cout<<"Enter data \n";
+for(i=0;i<n;i++){
+cout<<"For item:"<<i+1<<endl;
+cout<<"Weight:";cin>>arr[i].wt;
+cout<<"Profit:";cin>>arr[i].p;
+arr[i].ratio=(float)arr[i].p/arr[i].wt;
+}
+
+cout<<"\n\nGiven data \n";
+for(i=0;i<n;i++){
+cout<<"For item:"<<i+1<<"  ";
+cout<<"Weight:"<<arr[i].wt;
+cout<<",Profit:"<<arr[i].p;
+cout<<" and Ratio:"<<arr[i].ratio<<endl;
+}
+int total;
+cout<<"\n Enter weight of knapsack:";
+cin>>total;
+
+//Method 1 weights
+int tot=total;
+float p1=0;
+int ie=0;
+sort(arr,arr+n,compare1);
+for(i=0;i<n;i++)
+{
+if(tot>=arr[i].wt)
+{
+tot=tot-arr[i].wt;
+p1=p1+arr[i].p;
+ie++;
+}
+else if(tot==0)
+break;
+else
+{
+float r=(float)(tot/arr[i].wt)*arr[i].p;
+p1=p1+r;
+ie++;
+}
+}
+cout<<"Using Weight approach you got :"<<ie<<" items with total profit of "<<p1<<endl<<endl;
+
+//Method 2 profits
+
+tot=total;
+ie=0;
+float p2=0;
+sort(arr,arr+n,compare2);
+for(i=0;i<n;i++)
+{
+if(tot>=arr[i].wt)
+{
+tot=tot-arr[i].wt;
+p2=p2+arr[i].p;
+ie++;
+}
+else if(tot==0)
+break;
+else
+{
+float r=(float)(tot/arr[i].wt)*arr[i].p;
+p2=p2+r;
+ie++;
+}
+}
+cout<<"Using Profits approach you got :"<<ie<<" items with total profit of "<<p2<<endl<<endl;
+
+//Method 3 Ratios
+tot=total;
+ie=0;
+float p3=0;
+sort(arr,arr+n,compare3);
+for(i=0;i<n;i++)
+{
+if(tot>=arr[i].wt)
+{
+tot=tot-arr[i].wt;
+p3=p3+arr[i].p;
+ie++;
+}
+else if(tot==0)
+break;
+else
+{
+float r=(float)(tot/arr[i].wt)*arr[i].p;
+p3=p3+r;
+ie++;
+}
+}
+cout<<"Using Ratio approach you got :"<<ie<<" items with total profit of "<<p3<<endl<<endl;
+
+return 0;
+}
+    </pre>
+    <h2>Time</h2>
+    <pre>
+        Time Complexity: Time complexity of the sorting + Time complexity of the loop to maximize profit = O(NlogN) + O(N) = O(NlogN)
+    </pre>
+    <h2>Algo</h2>
+    <pre>double fractionalKnapsack(int K, item A[], int N)
+        {
+           //Sort the items on the basis of increasing ratio of V/W 
+            sort(A, A+N)
+            double totalValue = 0.0
+            int currUsedWeight = 0
+            for(int i = 0 to N-1)
+            {
+               if(A[i].weight < K)
+               {
+                   totalValue = totalValue + A[i].value
+                   currUsedWeight = currUsedWeight + A[i].weight
+               }
+               else
+               {
+                   int availableSpace = K - currUsedSpace
+                   //Taking the Fraction
+                   totalValue = totalValue + A[i].value*(availableSpace/A[i].weight)
+                   break
+               }
+            }
+        }</pre>
+        <h2>word algo</h2>
+        <pre>
+            Begin
+Take an array of structure Item
+Declare value, weight, knapsack weight and density
+Calculate density=value/weight for each item
+Sorting the items array on the order of decreasing density
+We add values from the top of the array to total value until the bag is full, i.e; total
+value <= W
+End
+
+2)
+1) Sort all jobs in decreasing order of profit. 
+2) Iterate on jobs in decreasing order of profit. For each job, do the following: 
+a) Find a time slot i, such that slot is empty and i<deadline and i is greatest. Put the job in 
+this slot and mark this slot filled. 
+b) If no such i exists, then ignore the job.
+
+        </pre>
+</body>
+</html>
